@@ -9,7 +9,7 @@
 import Foundation
 
 // Set this to the machine's address which runs the signaling server
-fileprivate let defaultSignalingServerUrl = URL(string: "ws://10.0.0.15:8080")!
+fileprivate let defaultSignalingServerUrl = URL(string: "wss://poc-vrchat.dev.onkakao.net/webrtc")!
 
 // We use Google's public stun servers. For production apps you should deploy your own stun/turn servers.
 fileprivate let defaultIceServers = ["stun:stun.l.google.com:19302",

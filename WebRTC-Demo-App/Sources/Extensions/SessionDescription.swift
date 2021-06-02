@@ -43,3 +43,9 @@ struct SessionDescription: Codable {
         return RTCSessionDescription(type: self.type.rtcSdpType, sdp: self.sdp)
     }
 }
+
+struct CustomDescription: Codable {
+    let event: String
+    let data: String
+    let roomId: String
+}

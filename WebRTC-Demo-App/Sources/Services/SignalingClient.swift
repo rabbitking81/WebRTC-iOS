@@ -9,7 +9,7 @@
 import Foundation
 import WebRTC
 
-protocol SignalClientDelegate: class {
+protocol SignalClientDelegate: AnyObject {
     func signalClientDidConnect(_ signalClient: SignalingClient)
     func signalClientDidDisconnect(_ signalClient: SignalingClient)
     func signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription)
@@ -32,12 +32,28 @@ final class SignalingClient {
         self.webSocket.connect()
     }
     
+//    let sdp = SDP.init(sdp: sessionDescription.sdp)
+//    let signalingMessage = SignalingMessage.init(event: type, data: sdp, candidate: nil, roomId: "레몬")
+//    do {
+//        let data = try JSONEncoder().encode(signalingMessage)
+//        let message = String(data: data, encoding: String.Encoding.utf8)!
+//
+//        if self.socket.isConnected {
+//            print(message)
+//            self.socket.write(string: message)
+//        }
+//    }catch{
+//        print(error)
+//    }
+    
     func send(sdp rtcSdp: RTCSessionDescription) {
-        let message = Message.sdp(SessionDescription(from: rtcSdp))
+//        let message = Message.sdp(SessionDescription(from: rtcSdp))
         do {
-            let dataMessage = try self.encoder.encode(message)
-            
-            self.webSocket.send(data: dataMessage)
+//            let dataMessage = try self.encoder.encode(message)
+            let dataMessage = try self.encoder.encode(CustomDescription(event: "offer", data: rtcSdp.sdp, roomId: "레몬"))
+            let m = String(data: dataMessage, encoding: String.Encoding.utf8)!
+            print(m)
+            self.webSocket.send(data: m.data(using: String.Encoding.utf8)!)
         }
         catch {
             debugPrint("Warning: Could not encode sdp: \(error)")
